@@ -97,10 +97,7 @@ def draw_img(result, start_time):
 
     duration = int(time.time() - start_time)
     html_output += "</table><center><a>测速完成, 共耗时: " + str(duration) + "秒</a></center></body></html>"
-    # imgkit.from_string(html_output, 'result.jpg', options={'quiet': ''})
-    path_wk = r'D:\Program Files\wkhtmltopdf\bin\wkhtmltoimage.exe'
-    config = imgkit.config(wkhtmltoimage=path_wk)
-    imgkit.from_string(html_output, 'result.jpg', config=config, options={'quiet': ''})
+    imgkit.from_string(html_output, 'result.jpg', options={'quiet': ''})
 
 
 def ping_color(ping: int) -> str:
