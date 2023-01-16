@@ -2,6 +2,7 @@ import json
 import time
 from utils.RefreshKey import refresh_key
 from utils.SpeedTest import speedtest
+from utils.SftpUpload import upload
 
 
 def main():
@@ -9,7 +10,7 @@ def main():
         config = json.load(f)
     expires_date = config['expires_date']
     current_timestamp = int(time.time())
-    maturity_criteria = 5*24*60*60
+    maturity_criteria = 5 * 24 * 60 * 60
     if current_timestamp + maturity_criteria >= expires_date:
         print('access_token已过期，尝试刷新')
         access_token = config['access_token']
@@ -27,3 +28,4 @@ if __name__ == '__main__':
     main()
     duration = time.time() - start_time
     print(f'测试完成，共耗时 {int(duration)} 秒')
+    upload()

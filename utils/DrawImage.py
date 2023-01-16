@@ -1,5 +1,7 @@
-import time
+from utils.Parameter import get_parameter
+
 import imgkit
+import time
 
 
 def draw_img(result, start_time):
@@ -31,7 +33,7 @@ def draw_img(result, start_time):
     </head>
     <body>
     <table>
-    <caption>哔哩漫游公共解析服务器测速</caption>
+    <caption>''' + get_parameter('title') + '''</caption>
     <caption>%CAPTION%</caption>
     <tr scope="header">
       <th colspan="4">安卓</th>
@@ -97,7 +99,7 @@ def draw_img(result, start_time):
 
     duration = int(time.time() - start_time)
     html_output += "</table><center><a>测速完成, 共耗时: " + str(duration) + "秒</a></center></body></html>"
-    imgkit.from_string(html_output, 'result.jpg', options={'quiet': ''})
+    imgkit.from_string(html_output, get_parameter('output'), options={'quiet': ''})
 
 
 def ping_color(ping: int) -> str:

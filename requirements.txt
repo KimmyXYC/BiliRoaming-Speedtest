@@ -1,3 +1,4 @@
 requests
+paramiko
 imgkit
 simplejson==3.18.1
