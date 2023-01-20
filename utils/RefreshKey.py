@@ -10,8 +10,11 @@ USER_AGENT = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Ge
 def refresh_key(access_token, refresh_token, appkey, appsec):
     url = 'https://passport.bilibili.com/x/passport-login/oauth2/refresh_token'
     current_timestamp = int(time.time())
-    params = {'access_token': access_token, 'refresh_token': refresh_token,
-              "ts": current_timestamp}
+    params = {
+        'access_token': access_token,
+        'refresh_token': refresh_token,
+        "ts": current_timestamp
+    }
     params = appsign(params, appkey, appsec)
     headers = {'User-Agent': USER_AGENT}
     response = requests.post(url, params=params, headers=headers)
@@ -38,11 +41,11 @@ def appsign(params, appkey, appsec):
 def save_key(access_token, refresh_token, expires_in):
     current_timestamp = int(time.time())
     expires_date = expires_in + current_timestamp
-    with open('config.json', 'r+') as json_file:
+    with open('Config/config.json', 'r+', encoding='utf-8') as json_file:
         data = json.load(json_file)
         data['access_token'] = access_token
         data['refresh_token'] = refresh_token
         data['expires_date'] = expires_date
         json_file.seek(0)
-        json.dump(data, json_file)
+        json.dump(data, json_file, ensure_ascii=False, indent=2)
         json_file.truncate()
