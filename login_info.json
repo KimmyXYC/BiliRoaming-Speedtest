@@ -1,0 +1,15 @@
+{
+  "code": 0,
+  "message": "0",
+  "ttl": 1,
+  "data": {
+    "status": 2,
+    "message": "您的账号存在高危异常行为，为了您的账号安全，请实名认证后登录帐号",
+    "url": "https://www.bilibili.com/h5/identify/submit?tmp_token=****",
+    "token_info": null,
+    "cookie_info": null,
+    "sso": null,
+    "is_new": false,
+    "is_tourist": false
+  }
+}
