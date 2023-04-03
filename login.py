@@ -1,4 +1,8 @@
-import requests, time, urllib, hashlib, json
+import hashlib
+import json
+import requests
+import time
+import urllib
 
 
 class Config:
@@ -33,8 +37,7 @@ def sms_send(phone):
     data = {"cid": Config.cid, "tel": phone, "ts": int(time.time())}
     data = appsign(params=data, appkey=Config.appkey, appsec=Config.appsec)
     r = requests.post(url=url, data=data, headers=Config.header)
-    return r.json()["code"], r.json()["message"], r.json(
-    )["data"]["captcha_key"]
+    return r.json()["code"], r.json()["message"], r.json()["data"]["captcha_key"]
 
 
 def sms_login(captcha_key, code, phone):
@@ -54,17 +57,18 @@ def sms_login(captcha_key, code, phone):
 def update_info():
     with open("login_info.json", "r", encoding="utf-8") as r:
         token_info = json.load(r)["data"]["token_info"]
-    access_token, refresh_token, expires_in = token_info[
-        "access_token"], token_info["refresh_token"], token_info["expires_in"]
+    access_token = token_info["access_token"]
+    refresh_token = token_info["refresh_token"]
+    expires_in = token_info["expires_in"]
     current_timestamp = int(time.time())
     expires_date = expires_in + current_timestamp
     with open('Config/config.json', 'r+', encoding='utf-8') as json_file:
         data = json.load(json_file)
-        data['access_token'] = access_token
-        data['refresh_token'] = refresh_token
-        data['expires_date'] = expires_date
-        data['appkey'] = Config.appkey
-        data['appsec'] = Config.appsec
+        data['user_info']['access_token'] = access_token
+        data['user_info']['refresh_token'] = refresh_token
+        data['user_info']['expires_date'] = expires_date
+        data['platform_info']['appkey'] = Config.appkey
+        data['platform_info']['appsec'] = Config.appsec
         json_file.seek(0)
         json.dump(data, json_file, ensure_ascii=False, indent=2)
         json_file.truncate()
