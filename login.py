@@ -1,7 +1,7 @@
 import requests, time, urllib, hashlib, json
 
 
-class config:
+class Config:
     cid = 86  # 国际电话区号
     appkey = "783bbb7264451d82"
     appsec = "2653583c8873dea268ab9386918b1d65"
@@ -11,9 +11,9 @@ class config:
         "env": "prod",
         "app-key": "android64",
         "user-agent":
-        "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36",
+            "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36",
         "x-bili-trace-id":
-        "7a709e7790e6e76a7de8c8e48c640c77:7de8c8e48c640c77:0:0",
+            "7a709e7790e6e76a7de8c8e48c640c77:7de8c8e48c640c77:0:0",
         "content-type": "application/x-www-form-urlencoded; charset=utf-8",
         # "accept-encoding": "gzip, deflate, br"
     }
@@ -30,9 +30,9 @@ def appsign(params, appkey, appsec):
 
 def sms_send(phone):
     url = "https://passport.bilibili.com/x/passport-login/sms/send"
-    data = {"cid": config.cid, "tel": phone, "ts": int(time.time())}
-    data = appsign(params=data, appkey=config.appkey, appsec=config.appsec)
-    r = requests.post(url=url, data=data, headers=config.header)
+    data = {"cid": Config.cid, "tel": phone, "ts": int(time.time())}
+    data = appsign(params=data, appkey=Config.appkey, appsec=Config.appsec)
+    r = requests.post(url=url, data=data, headers=Config.header)
     return r.json()["code"], r.json()["message"], r.json(
     )["data"]["captcha_key"]
 
@@ -41,13 +41,13 @@ def sms_login(captcha_key, code, phone):
     url = "https://passport.bilibili.com/x/passport-login/login/sms"
     data = {
         "captcha_key": captcha_key,
-        "cid": config.cid,
+        "cid": Config.cid,
         "code": code,
         "tel": phone,
         "ts": int(time.time())
     }
-    data = appsign(params=data, appkey=config.appkey, appsec=config.appsec)
-    r = requests.post(url=url, data=data, headers=config.header)
+    data = appsign(params=data, appkey=Config.appkey, appsec=Config.appsec)
+    r = requests.post(url=url, data=data, headers=Config.header)
     return r.json()
 
 
@@ -63,8 +63,8 @@ def update_info():
         data['access_token'] = access_token
         data['refresh_token'] = refresh_token
         data['expires_date'] = expires_date
-        data['appkey'] = config.appkey
-        data['appsec'] = config.appsec
+        data['appkey'] = Config.appkey
+        data['appsec'] = Config.appsec
         json_file.seek(0)
         json.dump(data, json_file, ensure_ascii=False, indent=2)
         json_file.truncate()

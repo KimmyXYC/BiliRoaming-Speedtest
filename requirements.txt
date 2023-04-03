@@ -1,4 +1,6 @@
-requests
-paramiko
-imgkit
-simplejson==3.18.1
+requests>=2.28.2
+paramiko>=3.1.0
+imgkit>=1.2.3
+simplejson>=3.18.4
+pathlib>=1.0.1
+loguru>=0.6.0

@@ -4,7 +4,7 @@ import imgkit
 import time
 
 
-def draw_img(result, start_time):
+def draw_img(result, duration):
     html_output = '''
     <html>
     <head>
@@ -33,7 +33,7 @@ def draw_img(result, start_time):
     </head>
     <body>
     <table>
-    <caption>''' + get_parameter('title') + '''</caption>
+    <center><a>%TITLE%</a></center>
     <caption>%CAPTION%</caption>
     <tr scope="header">
       <th colspan="4">安卓</th>
@@ -55,6 +55,8 @@ def draw_img(result, start_time):
 
     html_output = html_output.replace(
         "%CAPTION%", time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()))
+    html_output = html_output.replace(
+        "%TITLE%", get_parameter('output_info', 'title'))
 
     print('{:^7}|{:^7}|{:^7}|{:^7}| |{:^7}|{:^7}|{:^7}| |{:^7}| {}'.format(
         'cn', 'hk', 'tw', 'th', 'cn', 'hk', 'tw', 'avg', 'server'))
@@ -97,9 +99,11 @@ def draw_img(result, start_time):
         text += ' |{:>5}ms| {}'.format(r['status']['avg'], r['server'])
         print(text)
 
-    duration = int(time.time() - start_time)
     html_output += "</table><center><a>测速完成, 共耗时: " + str(duration) + "秒</a></center></body></html>"
-    imgkit.from_string(html_output, get_parameter('output'), options={'quiet': ''})
+    # imgkit.from_string(html_output, get_parameter('output_info', 'file_name'), options={'quiet': ''})
+    path_wk = r'D:\Program Files\wkhtmltopdf\bin\wkhtmltoimage.exe'
+    config = imgkit.config(wkhtmltoimage=path_wk)
+    imgkit.from_string(html_output, 'result.jpg', config=config, options={'quiet': ''})
 
 
 def ping_color(ping: int) -> str:

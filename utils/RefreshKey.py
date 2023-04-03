@@ -1,8 +1,7 @@
 import requests
 import time
-import json
-import hashlib
-import urllib.parse
+from loguru import logger
+from utils.Parameter import save_config, appsign
 
 USER_AGENT = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36'
 
@@ -19,33 +18,20 @@ def refresh_key(access_token, refresh_token, appkey, appsec):
     headers = {'User-Agent': USER_AGENT}
     response = requests.post(url, params=params, headers=headers)
     info_data = response.json()
-    # print(info_data)
-    token_info = info_data.get('data').get('token_info')
-    access_token = token_info.get('access_token')
-    refresh_token = token_info.get('refresh_token')
-    expires_in = token_info.get('expires_in')
-    save_key(access_token, refresh_token, expires_in)
-    print('access_token刷新成功')
-    # print("access_token:", access_token, "refresh_token:", refresh_token, "expires_in:", expires_in)
+    logger.debug(info_data)
 
-
-def appsign(params, appkey, appsec):
-    params.update({'appkey': appkey})
-    params = dict(sorted(params.items()))
-    query = urllib.parse.urlencode(params)
-    sign = hashlib.md5((query + appsec).encode()).hexdigest()
-    params.update({'sign': sign})
-    return params
-
-
-def save_key(access_token, refresh_token, expires_in):
-    current_timestamp = int(time.time())
-    expires_date = expires_in + current_timestamp
-    with open('Config/config.json', 'r+', encoding='utf-8') as json_file:
-        data = json.load(json_file)
-        data['access_token'] = access_token
-        data['refresh_token'] = refresh_token
-        data['expires_date'] = expires_date
-        json_file.seek(0)
-        json.dump(data, json_file, ensure_ascii=False, indent=2)
-        json_file.truncate()
+    try:
+        if info_data['code'] == 0:
+            token_info = info_data.get('data').get('token_info')
+            access_token = token_info['access_token']
+            refresh_token = token_info['refresh_token']
+            expires_in = token_info['expires_in']
+            save_config("access_token", access_token)
+            save_config("refresh_token", refresh_token)
+            save_config("expires_date", expires_in + current_timestamp)
+            logger.success('access_token 刷新成功')
+            logger.debug(f"access_token: {access_token}, refresh_token: {refresh_token}, expires_in: {expires_in}")
+        else:
+            logger.error(f"发生错误, 错误码: {info_data['code']}, access_token 刷新失败")
+    except Exception as e:
+        logger.error(f"发生错误: {e}, access_token 刷新失败")
