@@ -1,5 +1,5 @@
 from utils.Parameter import get_parameter
-
+from loguru import logger
 import imgkit
 import time
 
@@ -56,7 +56,7 @@ def draw_img(result, duration):
     html_output = html_output.replace(
         "%CAPTION%", time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()))
     html_output = html_output.replace(
-        "%TITLE%", get_parameter('output_info', 'title'))
+        "%TITLE%", get_parameter('image_output', 'title'))
 
     print('{:^7}|{:^7}|{:^7}|{:^7}| |{:^7}|{:^7}|{:^7}| |{:^7}| {}'.format(
         'cn', 'hk', 'tw', 'th', 'cn', 'hk', 'tw', 'avg', 'server'))
@@ -100,10 +100,12 @@ def draw_img(result, duration):
         print(text)
 
     html_output += "</table><center><a>测速完成, 共耗时: " + str(duration) + "秒</a></center></body></html>"
-    # imgkit.from_string(html_output, get_parameter('output_info', 'file_name'), options={'quiet': ''})
-    path_wk = r'D:\Program Files\wkhtmltopdf\bin\wkhtmltoimage.exe'
-    config = imgkit.config(wkhtmltoimage=path_wk)
-    imgkit.from_string(html_output, 'result.jpg', config=config, options={'quiet': ''})
+    if get_parameter('image_output', 'enable'):
+        logger.info("开始生成测速图")
+        imgkit.from_string(html_output, get_parameter('image_output', 'file_name'), options={'quiet': ''})
+        # path_wk = r'D:\Program Files\wkhtmltopdf\bin\wkhtmltoimage.exe'
+        # config = imgkit.config(wkhtmltoimage=path_wk)
+        # imgkit.from_string(html_output, get_parameter('image_output', 'file_name'), config=config, options={'quiet': ''})
 
 
 def ping_color(ping: int) -> str:
