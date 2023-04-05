@@ -7,8 +7,8 @@ import urllib
 
 class Config:
     cid = 86  # 国际电话区号
-    appkey = "783bbb7264451d82"
-    appsec = "2653583c8873dea268ab9386918b1d65"
+    appkey = "1d8b6e7d45233436"
+    appsec = "560c52ccd288fed045859ed18bffd973"
     header = {
         "Host": "passport.bilibili.com",
         "buvid": "XU4B4E44813CCE878BC2D965745433AB55B06",
