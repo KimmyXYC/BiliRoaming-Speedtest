@@ -100,6 +100,7 @@ def draw_img(result, duration):
         print(text)
 
     html_output += "</table><center><a>测速完成, 共耗时: " + str(duration) + "秒</a></center></body></html>"
+    html_output = html_output.replace("陈睿", "**").replace("死", "*").replace("妈", "*")
     if get_parameter('image_output', 'enable'):
         logger.info("开始生成测速图")
         imgkit.from_string(html_output, get_parameter('image_output', 'file_name'), options={'quiet': ''})
