@@ -7,7 +7,7 @@ from requests.exceptions import ConnectionError, ReadTimeout
 from utils.Parameter import get_parameter, read_server_list, appsign
 from utils.DrawImage import draw_img
 
-USER_AGENT = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36'
+USER_AGENT = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36'
 PLATFORM_INFO = get_parameter('platform_info')
 VERSION_CODE = PLATFORM_INFO['version_code']
 VERSION_NAME = PLATFORM_INFO['version_name']

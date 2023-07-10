@@ -3,7 +3,7 @@ import time
 from loguru import logger
 from utils.Parameter import save_config, appsign
 
-USER_AGENT = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36'
+USER_AGENT = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36'
 
 
 def refresh_key(access_token, refresh_token, appkey, appsec):
