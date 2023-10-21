@@ -28,19 +28,6 @@ def get_parameter(*parameters):
         return None
 
 
-def save_config(value, parameter):
-    try:
-        with open((str(pathlib.Path.cwd()) + "/Config/config.json"), 'r+', encoding='utf-8') as json_file:
-            data = json.load(json_file)
-            data["user_info"][parameter] = value
-            json_file.seek(0)
-            json.dump(data, json_file, ensure_ascii=False, indent=2)
-            json_file.truncate()
-            json_file.close()
-    except Exception as e:
-        logger.error(f"保存配置文件失败: {e}")
-
-
 def read_server_list(file: str = (str(pathlib.Path.cwd()) + "/Config/server.txt")):
     server_list = list()
     with open(file, mode='r', encoding='utf-8') as f:
