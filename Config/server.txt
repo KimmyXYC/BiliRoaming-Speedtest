@@ -12,9 +12,13 @@ bili.api.acfun.win
 bilibili.page
 api.atri.ink
 bili.rikko.moe
-cherry.icu.cnmobile.link
 bilibili.suysker.xyz
 bili.lolicon.team
 melusine.moe
 bstar.kirara-fantasia.moe
 hk.xifeng.cf
+api.mihoyo.buzz
+bili.xcnya.cn
+cc.hmountainln.cn
+bili.ox19.top
+bili.hybgzs.com
