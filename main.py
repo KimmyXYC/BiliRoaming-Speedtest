@@ -10,17 +10,22 @@ from utils.SftpUpload import upload
 def main():
     config = get_config_file()
     expires_date = config['user_info']['expires_date']
+    refresh_token = config['user_info']['refresh_token']
     current_timestamp = int(time.time())
     maturity_criteria = 5 * 24 * 60 * 60
-    if current_timestamp + maturity_criteria >= expires_date:
-        logger.info(f"access_token 已过期，尝试刷新")
-        access_token = config['user_info']['access_token']
-        refresh_token = config['user_info']['refresh_token']
-        appkey = config['platform_info']['appkey']
-        appsec = config['platform_info']['appsec']
-        refresh_key(access_token, refresh_token, appkey, appsec)
-        logger.info("开始测速")
-        speedtest()
+    if expires_date != 0 and refresh_token is not None:
+        if current_timestamp + maturity_criteria >= expires_date:
+            logger.info(f"access_token 已过期，尝试刷新")
+            access_token = config['user_info']['access_token']
+            refresh_token = config['user_info']['refresh_token']
+            appkey = config['platform_info']['appkey']
+            appsec = config['platform_info']['appsec']
+            refresh_key(access_token, refresh_token, appkey, appsec)
+            logger.info("开始测速")
+            speedtest()
+        else:
+            logger.info("开始测速")
+            speedtest()
     else:
         logger.info("开始测速")
         speedtest()
